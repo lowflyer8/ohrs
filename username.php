@@ -8,6 +8,7 @@
     }else{
         $stmt = $conn->prepare("insert into users(username,password)values(?,?)");
         $stmt->bind_param("ss",$username,$password);
+        $stmt->execute();
         echo"registration successfully";
         $stmt->close();
         $conn->close();
