@@ -4,10 +4,9 @@ function signup(){
 }
 function AgencyLogin(){
     alert("Redirected to agency login page")
-    window.location.href = "agencyLogin.html";
+    window.location.href = "agencylogin.html";
 }
 function UserLogin(){
     alert("Redirected to user Login page")
-    window.location.href = "user-login.html";
+    window.location.href = "userlogin.html";
 }
-
