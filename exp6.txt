@@ -1,0 +1,37 @@
+CREATE TABLE department (
+    deptno NUMBER PRIMARY KEY,
+    dname VARCHAR2(30)  
+) ;
+
+CREATE TABLE employee (
+    empno NUMBER PRIMARY KEY ,
+    ename VARCHAR2(50) ,
+    salary NUMBER  ,
+    deptno NUMBER ,
+    FOREIGN KEY (deptno) REFERENCES department(deptno) 
+) ;
+
+INSERT INTO department VALUES (10,'accounting');
+INSERT INTO department VALUES (20,'research');
+INSERT INTO department VALUES (30,'sales');
+
+INSERT INTO employee VALUES (101,'rahul',3000,10);
+INSERT INTO employee VALUES (102,'amit',8000,20);
+INSERT INTO employee VALUES (103,'suresh',6000,30);
+INSERT INTO employee VALUES (104,'ravi',4000,10);
+
+SELECT ename , salary
+FROM employee
+WHERE salary> (SELECT AVG (salary) FROM employee) ; 
+
+SELECT ename 
+FROM employee
+WHERE deptno = (SELECT deptno FROM department WHERE dname = 'research') ;
+
+SELECT ename , salary
+FROM employee
+WHERE salary = (SELECT MAX (salary) FROM employee) ; 
+
+SELECT ename 
+FROM employee
+WHERE deptno IN (SELECT deptno FROM department) ; 
