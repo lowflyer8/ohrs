@@ -1,0 +1,38 @@
+create table deptNew(
+    dep_no number primary key,
+    dep_name varchar(50) not null,
+    location varchar(100)
+);
+
+create table employeeNew(
+    emp_no number primary key,
+    emp_name varchar(50) not null,
+    job varchar(25),
+    salary number check (salary > 0),
+    dep_no number,
+    foreign key (dep_no) references deptNew(dep_no)
+);
+
+insert into deptNew values(101 ,'hr','pune');
+insert into deptNew values(102 ,'market','indapur');
+insert into deptNew values(103 ,'Accounts','pune');
+insert into deptNew values(104 ,'tax','baramati');
+insert into deptNew values(105 ,'sales','mumbai');
+
+insert into employeeNew values(1,'jack','recruitment',30000,101);
+insert into employeeNew values(2,'max ','income tax',100000,104);
+insert into employeeNew values(3,'bob','officer',300000,104);
+insert into employeeNew values(4,'le','offline ',50000,105);
+insert into employeeNew values(5,'yan','online',30000,105);
+insert into employeeNew values(6,'mike','lone',30000,103);
+insert into employeeNew values(7,'sky','cash holder',30000,102);
+
+select * from deptNew;
+select * from employeeNew;
+
+select 
+    e.dep_no ,
+    max(e.salary) as max_sal
+from employeeNew e
+group by e.dep_no
+having e.dep_no = 105;

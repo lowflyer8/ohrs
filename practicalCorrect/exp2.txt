@@ -1,0 +1,42 @@
+create table deptNew(
+    dep_no number primary key,
+    dep_name varchar(50) not null,
+    location varchar(100) UNIQUE
+);
+
+create table empNew(
+    emp_no number primary key,
+    emp_name varchar(50) not null,
+    job varchar(25),
+    salary number check (salary > 0),
+    dep_no number,
+    foreign key (dep_no) references deptNew(dep_no)
+);
+
+insert into deptNew values(101 ,'hr','pune');
+insert into deptNew values(102 ,'market','indapur');
+insert into deptNew values(103 ,'Accounts','pune');
+insert into deptNew values(104 ,'tax','baramati');
+insert into deptNew values(105 ,'sales','mumbai');
+
+insert into empNew values(1,'jack','recruitment',30000,101);
+insert into empNew values(2,'max ','income tax',100000,104);
+insert into empNew values(3,'bob','officer',300000,104);
+insert into empNew values(4,'le','offline ',50000,105);
+insert into empNew values(5,'yan','online',30000,105); 
+insert into empNew values(6,'mike','lone',30000,103);
+insert into empNew values(7,'sky','cash holder',30000,102);
+
+select * from deptNew;
+select * from empNew;
+
+alter table empNew add phone number(10);
+alter table empNew drop  column phone;
+
+select * from empNew;
+
+rename empNew to employeeNew;
+
+truncate table employeeNew;  
+
+select * from employeeNew;

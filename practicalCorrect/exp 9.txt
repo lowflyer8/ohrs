@@ -1,0 +1,27 @@
+//exp 9
+
+
+
+db.employees.insertMany([
+  {emp_no: 101, name: 'jack', salary:30000 },
+  {emp_no: 102, name: 'max', salary:100000 },
+  {emp_no: 103, name: 'bob', salary:50000 },
+]);
+
+db.employees.find();
+
+db.employees.updateOne(
+  {emp_no:101},
+  {$set:{salary:35000}}
+  )
+  
+db.employees.updateMany(
+  {salary:{$gt:5000}},
+  {$set:{bonus:1000}}
+  ) 
+
+db.employees.deleteOne({emp_no:103})
+db.employees.deleteMany({salary:{$lt:50000}})
+
+db.employees.find()
+  

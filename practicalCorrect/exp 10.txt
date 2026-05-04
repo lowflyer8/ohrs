@@ -1,0 +1,12 @@
+
+//////   exp 10
+
+db.emp.insertMany([
+  {id: 1, name:"A",sal: 20000},
+  {id: 2, name:"B",sal: 34000}
+  ]);
+  
+  db.emp.find();
+  db.emp.updateOne({  id: 1},{$set: { sal:35000}});
+  db.emp.deleteOne({id: 2});
+  db.emp.find();

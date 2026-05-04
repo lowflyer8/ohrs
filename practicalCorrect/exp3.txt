@@ -1,0 +1,44 @@
+create table deptNew(
+    dep_no number primary key,
+    dep_name varchar(50) not null,
+    location varchar(100)
+);
+
+create table employeeNew(
+    emp_no number primary key,
+    emp_name varchar(50) not null,
+    job varchar(25),
+    salary number check (salary > 0),
+    dep_no number,
+    foreign key (dep_no) references deptNew(dep_no)
+);
+
+insert into deptNew values(101 ,'hr','pune');
+insert into deptNew values(102 ,'market','indapur');
+insert into deptNew values(103 ,'Accounts','pune');
+insert into deptNew values(104 ,'tax','baramati');
+insert into deptNew values(105 ,'sales','mumbai');
+
+insert into employeeNew values(1,'jack','recruitment',30000,101);
+insert into employeeNew values(2,'max ','income tax',100000,104);
+insert into employeeNew values(3,'bob','officer',300000,104);
+insert into employeeNew values(4,'le','offline ',50000,105);
+insert into employeeNew values(5,'yan','online',30000,105);
+insert into employeeNew values(6,'mike','lone',30000,103);
+insert into employeeNew values(7,'sky','cash holder',30000,102);
+
+select * from deptNew;
+select * from employeeNew;
+
+create view dept_view as
+select d.dep_no ,d.dep_name
+from deptNew d ;
+
+select * from dept_view;
+
+create  index index_emp on employeeNew(emp_name);
+
+create sequence empl_seq start  with 8 increment by 1;
+insert into employeeNew values(empl_seq.nextval , 'om','clerk' ,20000,101);
+
+create synonym emp_syn for employeeNew;
