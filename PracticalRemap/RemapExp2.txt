@@ -1,0 +1,57 @@
+CREATE TABLE Department(
+    Deptno NUMBER PRIMARY KEY,
+    Dname VARCHAR2(20),
+    Location VARCHAR2(20)
+);
+
+INSERT INTO Department VALUES(10,'Accounting','Mumbai');
+INSERT INTO Department VALUES(20,'Research','Pune');
+INSERT INTO Department VALUES(30,'Sales','Nashik');
+INSERT INTO Department VALUES(40,'Operations','Nagpur');
+
+
+CREATE TABLE Employee(
+    Empno NUMBER PRIMARY KEY,
+    Ename VARCHAR2(50),
+    Job VARCHAR2(20),
+    Mgr NUMBER,
+    Joined_date DATE,
+    Salary NUMBER,
+    Commission NUMBER,
+    Deptno NUMBER,
+    Address VARCHAR2(50)
+);
+
+INSERT INTO Employee VALUES(1001,'Nilesh Joshi','Clerk',1005,'17-DEC-95',2800,600,20,'Nashik');
+INSERT INTO Employee VALUES(1002,'Avinash Pawar','Salesman',1003,'20-FEB-96',5000,1200,30,'Nagpur');
+INSERT INTO Employee VALUES(1003,'Amit Kumar','Manager',1004,'02-APR-86',2000,NULL,30,'Pune');
+INSERT INTO Employee VALUES(1004,'Nitin Kulkarni','President',NULL,'19-APR-86',50000,NULL,10,'Mumbai');
+INSERT INTO Employee VALUES(1005,'Niraj Sharma','Analyst',1003,'03-DEC-98',12000,NULL,20,'Satara');
+INSERT INTO Employee VALUES(1006,'Pushkar Despande','Salesman',1003,'01-SEP-96',6500,1500,30,'Pune');
+INSERT INTO Employee VALUES(1007,'Sumit Patil','Manager',1004,'01-MAY-91',25000,NULL,20,'Mumbai');
+INSERT INTO Employee VALUES(1008,'Ravi Sawant','Analyst',1007,'17-NOV-95',10000,NULL,NULL,'Amaravati');
+
+SELECT Empno,Ename,Job,Mgr,Joined_date,Salary,Commission,Deptno,Address FROM Employee;
+
+SELECT DISTINCT Job FROM Employee;
+
+UPDATE Department SET Location='Bangalore' WHERE Deptno=40;
+
+UPDATE Employee SET Ename='Nikhil Gosavi' WHERE Empno=1003;
+
+DELETE FROM Employee WHERE Ename='Pushkar Deshpande';
+
+SELECT * FROM Employee WHERE Job='Manager' OR Job='Analyst';
+
+-- OR using IN
+SELECT * FROM Employee WHERE Job IN('Manager','Analyst');
+
+SELECT Ename,Deptno FROM Employee WHERE Deptno IN(10,20,30,40);
+
+SELECT * FROM Employee WHERE Salary BETWEEN 5000 AND 20000;
+
+SELECT Ename FROM Employee WHERE Ename LIKE 'A%';
+
+SELECT Deptno,MAX(Salary) FROM Employee
+GROUP BY Deptno
+HAVING MAX(Salary) > 5000;

@@ -1,0 +1,35 @@
+CREATE TABLE Library(
+    book_id NUMBER,
+    book_name VARCHAR2(50),
+    price NUMBER 
+    );
+
+CREATE TABLE Library_Audit(
+    book_id NUMBER,
+    book_name VARCHAR2(50),
+    price NUMBER,
+    action VARCHAR2(10));
+
+CREATE OR REPLACE TRIGGER trg_upd
+BEFORE UPDATE ON Library
+FOR EACH ROW
+BEGIN
+INSERT INTO Library_Audit VALUES(:OLD.book_id,:OLD.book_name,:OLD.price,'UPDATE');
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_del
+BEFORE DELETE ON Library
+FOR EACH ROW
+BEGIN
+INSERT INTO Library_Audit VALUES(:OLD.book_id,:OLD.book_name,:OLD.price,'DELETE');
+END;
+/
+
+INSERT INTO Library VALUES(1,'DBMS',500);
+INSERT INTO Library VALUES(2,'Java',600);
+
+UPDATE Library SET price=700 WHERE book_id=1;
+DELETE FROM Library WHERE book_id=2;
+
+SELECT * FROM Library_Audit;

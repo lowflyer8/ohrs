@@ -1,0 +1,46 @@
+CREATE TABLE Borrower(
+    Rollin NUMBER,
+    Name VARCHAR2(50),
+    DateofIssue DATE,
+    NameofBook VARCHAR2(50),
+    Status CHAR(1)
+);
+
+CREATE TABLE Fine(
+    Roll_no NUMBER,
+    Date1 DATE,
+    Amt NUMBER
+);
+
+INSERT INTO Borrower VALUES(1,'Amit',SYSDATE-20,'DBMS','I');
+INSERT INTO Borrower VALUES(2,'Neha',SYSDATE-35,'Java','I');
+
+COMMIT;
+
+DECLARE
+ r NUMBER:=1;
+ b VARCHAR2(50):='DBMS';
+ d NUMBER; f NUMBER:=0; idate DATE;
+BEGIN
+ SELECT DateofIssue INTO idate 
+ FROM Borrower 
+ WHERE Rollin=r AND NameofBook=b;
+
+ d:=SYSDATE-idate;
+
+ IF d>=15 AND d<=30 THEN f:=d*5;
+ ELSIF d>30 THEN f:=(30*5)+(d-30)*50;
+ END IF;
+
+ IF f>0 THEN INSERT INTO Fine VALUES(r,SYSDATE,f); END IF;
+
+ UPDATE Borrower SET Status='R'
+ WHERE Rollin=r AND NameofBook=b;
+
+EXCEPTION
+ WHEN NO_DATA_FOUND THEN DBMS_OUTPUT.PUT_LINE('No record');
+END;
+/
+
+SELECT * FROM Borrower;
+SELECT * FROM Fine;

@@ -1,0 +1,96 @@
+CREATE TABLE Employee(
+    employee_name VARCHAR2(50) PRIMARY KEY,
+    street VARCHAR2(50),
+    city VARCHAR2(50)
+);
+INSERT INTO Employee VALUES('Amit','FC Road','Pune');
+INSERT INTO Employee VALUES('Neha','MG Road','Mumbai');
+INSERT INTO Employee VALUES('Rahul','College Road','Nashik');
+INSERT INTO Employee VALUES('Priya','Sitabuldi','Nagpur');
+
+
+CREATE TABLE Company(
+    company_name VARCHAR2(50) PRIMARY KEY,
+    city VARCHAR2(50)
+);
+INSERT INTO Company VALUES('First Bank','Mumbai');
+INSERT INTO Company VALUES('Small Bank','Pune');
+INSERT INTO Company VALUES('TCS','Mumbai');
+
+
+CREATE TABLE Works(
+    employee_name VARCHAR2(50),
+    company_name VARCHAR2(50),
+    salary NUMBER,
+    FOREIGN KEY(employee_name) REFERENCES Employee(employee_name),
+    FOREIGN KEY(company_name) REFERENCES Company(company_name)
+);
+INSERT INTO Works VALUES('Amit','First Bank',15000);
+INSERT INTO Works VALUES('Neha','First Bank',12000);
+INSERT INTO Works VALUES('Rahul','Small Bank',8000);
+
+
+CREATE TABLE Manages(
+    employee_name VARCHAR2(50),
+    manager_name VARCHAR2(50)
+);
+INSERT INTO Manages VALUES('Amit','Neha');
+INSERT INTO Manages VALUES('Rahul','Amit');
+
+SELECT employee_name FROM Works
+WHERE company_name='First Bank';    
+
+SELECT e.employee_name,e.city
+FROM Employee e, Works w
+WHERE e.employee_name=w.employee_name
+AND w.company_name='First Bank';
+
+SELECT e.employee_name,e.street,e.city
+FROM Employee e, Works w
+WHERE e.employee_name=w.employee_name
+AND w.company_name='First Bank'
+AND w.salary>10000;
+
+SELECT employee_name FROM Works
+WHERE salary > ALL(
+    SELECT salary FROM Works
+    WHERE company_name='Small Bank'
+);
+
+SELECT w.employee_name
+FROM Works w
+WHERE w.salary > (
+    SELECT AVG(salary)
+    FROM Works
+    WHERE company_name=w.company_name
+);
+
+SELECT company_name FROM Works
+GROUP BY company_name
+HAVING SUM(salary)=(
+    SELECT MIN(SUM(salary))
+    FROM Works
+    GROUP BY company_name
+);
+SELECT company_name FROM Works
+GROUP BY company_name
+HAVING AVG(salary) > (
+    SELECT AVG(salary) FROM Works
+    WHERE company_name='First Bank'
+);
+
+SELECT e.employee_name,w.company_name,w.salary
+FROM Employee e JOIN Works w
+ON e.employee_name=w.employee_name;
+
+CREATE TABLE HighEarners AS
+SELECT employee_name,salary FROM Works
+WHERE salary > (SELECT AVG(salary) FROM Works);
+
+DELETE FROM Employee
+WHERE employee_name IN(
+    SELECT w.employee_name
+    FROM Works w, Company c
+    WHERE w.company_name=c.company_name
+    AND c.city='Gotham'
+);

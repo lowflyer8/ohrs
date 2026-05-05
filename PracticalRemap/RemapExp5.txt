@@ -1,0 +1,67 @@
+CREATE TABLE O_RollCall (
+    RollNo NUMBER PRIMARY KEY,
+    Name VARCHAR2(50),
+    Branch VARCHAR2(30)
+);
+
+CREATE TABLE N_RollCall (
+    RollNo NUMBER PRIMARY KEY,
+    Name VARCHAR2(50),
+    Branch VARCHAR2(30)
+);
+
+-- Insert Data
+INSERT INTO O_RollCall VALUES (1, 'Aarav', 'Computer');
+INSERT INTO O_RollCall VALUES (2, 'Neha', 'ENTC');
+INSERT INTO O_RollCall VALUES (3, 'Riya', 'Mechanical');
+
+INSERT INTO N_RollCall VALUES (2, 'Neha', 'ENTC');
+INSERT INTO N_RollCall VALUES (3, 'Riya', 'Mechanical');
+INSERT INTO N_RollCall VALUES (4, 'Karan', 'IT');
+INSERT INTO N_RollCall VALUES (5, 'Meera', 'Civil');
+
+COMMIT;
+
+-- Create Procedure
+CREATE OR REPLACE PROCEDURE MergeRollCall IS
+    v_Roll   NUMBER;
+    v_Name   VARCHAR2(50);
+    v_Branch VARCHAR2(30);
+    v_exists NUMBER;
+
+    CURSOR cur IS
+        SELECT RollNo, Name, Branch FROM N_RollCall;
+
+BEGIN
+    OPEN cur;
+
+    LOOP
+        FETCH cur INTO v_Roll, v_Name, v_Branch;
+        EXIT WHEN cur%NOTFOUND;
+
+        SELECT COUNT(*) INTO v_exists
+        FROM O_RollCall
+        WHERE RollNo = v_Roll;
+
+        IF v_exists = 0 THEN
+            INSERT INTO O_RollCall
+            VALUES (v_Roll, v_Name, v_Branch);
+        END IF;
+
+    END LOOP;
+
+    CLOSE cur;
+
+    DBMS_OUTPUT.PUT_LINE('Merge Completed Successfully!');
+END;
+/
+
+-- Execute Procedure
+BEGIN
+    MergeRollCall;
+END;
+/
+
+-- Display Results
+SELECT * FROM O_RollCall;
+SELECT * FROM N_RollCall;

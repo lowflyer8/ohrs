@@ -1,0 +1,55 @@
+CREATE TABLE Stud_Marks(
+    Roll NUMBER,
+    Name VARCHAR2(20),
+    Total_Marks NUMBER
+);
+
+-- then this 
+
+CREATE TABLE Result(
+    Roll NUMBER,
+    Name VARCHAR2(20),
+    Class VARCHAR2(30)
+);
+
+-- then this
+
+INSERT INTO Stud_Marks VALUES(1,'A',1200);
+INSERT INTO Stud_Marks VALUES(2,'B',950);
+INSERT INTO Stud_Marks VALUES(3,'C',850);
+
+-- then this
+-- Procedure
+CREATE OR REPLACE PROCEDURE proc_Grade(
+    r NUMBER,
+    n VARCHAR2,
+    m NUMBER
+)
+IS
+    c VARCHAR2(30);
+BEGIN
+    IF m >= 990 THEN
+        c := 'Distinction';
+    ELSIF m >= 900 THEN
+        c := 'First Class';
+    ELSIF m >= 825 THEN
+        c := 'Higher Second Class';
+    ELSE
+        c := 'Fail';
+    END IF;
+
+    INSERT INTO Result VALUES(r,n,c);
+END;
+/
+--then this
+-- Calling Procedure
+BEGIN
+    FOR i IN (SELECT * FROM Stud_Marks)
+    LOOP
+        proc_Grade(i.Roll,i.Name,i.Total_Marks);
+    END LOOP;
+END;
+/
+--then this
+-- Output
+SELECT * FROM Result;

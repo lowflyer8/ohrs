@@ -1,0 +1,104 @@
+CREATE TABLE Person(
+    driver_id NUMBER PRIMARY KEY,
+    name VARCHAR2(50),
+    address VARCHAR2(50)
+);
+
+INSERT INTO Person VALUES(1,'Amit','Pune');
+INSERT INTO Person VALUES(2,'Neha','Mumbai');
+
+CREATE TABLE Car(
+    license NUMBER PRIMARY KEY,
+    model VARCHAR2(20),
+    year NUMBER
+);
+
+CREATE TABLE Accident(
+    report_no NUMBER PRIMARY KEY,
+    date_acc DATE,
+    location VARCHAR2(50)
+);
+
+CREATE TABLE Owns(
+    driver_id NUMBER,
+    license NUMBER
+);
+
+CREATE TABLE Participated(
+    driver_id NUMBER,
+    model VARCHAR2(20),
+    report_no NUMBER,
+    damage_amount NUMBER
+);
+INSERT INTO Participated VALUES(1,'X',101,5000);
+INSERT INTO Participated VALUES(2,'Y',102,7000);
+
+
+
+CREATE TABLE Employee(
+    employee_name VARCHAR2(50),
+    street VARCHAR2(50),
+    city VARCHAR2(50)
+);
+
+INSERT INTO Employee VALUES('Amit','FC Road','Pune');
+INSERT INTO Employee VALUES('Neha','MG Road','Mumbai');
+
+CREATE TABLE Works(
+    employee_name VARCHAR2(50),
+    company_name VARCHAR2(50),
+    salary NUMBER
+);
+
+INSERT INTO Works VALUES('Amit','TCS',50000);
+INSERT INTO Works VALUES('Neha','Infosys',60000);
+
+
+CREATE TABLE Company(
+    company_name VARCHAR2(50),
+    city VARCHAR2(50)
+);
+INSERT INTO Company VALUES('TCS','Pune');
+INSERT INTO Company VALUES('Infosys','Mumbai');
+
+CREATE TABLE Manages(
+    employee_name VARCHAR2(50),
+    manager_name VARCHAR2(50)
+);
+
+
+CREATE VIEW emp_view2 AS
+SELECT e.employee_name, w.company_name
+FROM Employee e, Works w
+WHERE e.employee_name = w.employee_name;
+
+select * from emp_view2
+
+-- run first part separately 
+
+CREATE INDEX emp_index ON Employee(employee_name);
+CREATE INDEX part_index ON Participated(driver_id);
+
+
+CREATE SEQUENCE person_seq START WITH 3 INCREMENT BY 1;
+
+INSERT INTO Person VALUES(person_seq.NEXTVAL,'A','Pune');
+INSERT INTO Person VALUES(person_seq.NEXTVAL,'B','Mumbai');
+INSERT INTO Person VALUES(person_seq.NEXTVAL,'C','Nashik');
+INSERT INTO Person VALUES(person_seq.NEXTVAL,'D','Nagpur');
+
+
+
+CREATE SYNONYM part FOR Participated;
+CREATE SYNONYM comp FOR Company;
+
+
+INSERT INTO Participated VALUES(1,'X',101,5000);
+INSERT INTO Company VALUES('TCS','Pune');
+
+
+SELECT * FROM part;
+SELECT * FROM comp;
+
+
+UPDATE comp SET city='Mumbai' WHERE company_name='TCS';
