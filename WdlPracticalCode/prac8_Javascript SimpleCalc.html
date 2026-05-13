@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple JS Calculator</title>
+</head>
+
+<body>
+
+    <h2 style="color:blue;">Simple JS Calculator</h2>
+
+    <script>
+
+        function calc(a, b, op) {
+
+            document.write("User Session: Viraj <br><br>");
+
+            document.write(">> Input: " + a + ", " + b + "<br><br>");
+
+            document.write(">> Operator: " + op + "<br><br>");
+
+            switch(op) {
+
+                case '+':
+                    document.write(">> Results are: " + (a + b));
+                    break;
+
+                case '-':
+                    document.write(">> Results are " + (a - b));
+                    break;
+
+                case '*':
+                    document.write(">> Results are: " + (a * b));
+                    break;
+
+                case '/':
+                    document.write(">> Results are: " + (a / b));
+                    break;
+
+                default:
+                    document.write("Invalid Operator");
+            }
+        }
+
+        calc(10, 5, '*');
+
+    </script>
+
+</body>
+
+</html>

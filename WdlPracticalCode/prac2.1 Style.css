@@ -1,0 +1,33 @@
+
+body {
+    background-color: #f47f6f;
+    margin: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+th {
+    background: #003366;
+    color: white;
+    padding: 12px;
+}
+
+td {
+    border: 1px solid #999;
+    padding: 10px;
+}
+
+/* Example Box Model */
+
+.box-model-demo {
+    width: 300px;
+    margin: 20px;
+    border: 5px solid #b30000;
+    padding: 20px;
+    background-color: white;
+    text-align: center;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Form Validation</title>
+
+    <script>
+        function check() {
+
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+
+            if (name == "" || email == "") {
+                alert("All fields are required");
+                return false;
+            }
+
+            alert("Form Submitted Successfully");
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+
+    <h2>Student Form</h2>
+
+    <form onsubmit="return check()">
+
+        Name:
+        <input type="text" id="name"><br><br>
+
+        Email:
+        <input type="email" id="email"><br><br>
+
+        <input type="submit" value="Submit">
+
+    </form>
+
+</body>
+
+</html>

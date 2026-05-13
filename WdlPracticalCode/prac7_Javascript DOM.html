@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DOM Program</title>
+</head>
+
+<body>
+
+    <div id="box">
+        Wait...
+    </div>
+
+    <br>
+
+    <button onclick="go()">
+        Update
+    </button>
+
+    <script>
+
+        function go() {
+
+            var d = document.getElementById("box");
+
+            d.innerHTML = "<h2>Ready Viraj</h2>";
+
+            d.style.color = "blue";
+        }
+
+    </script>
+
+</body>
+
+</html>

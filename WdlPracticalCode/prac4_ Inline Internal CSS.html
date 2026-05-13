@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>CSS Types Demo</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="prac4.1 Style.css">
+
+    <!-- Internal CSS -->
+    <style>
+
+        h2 {
+            border-left: 8px solid #003366;
+            padding-left: 10px;
+            color: darkblue;
+        }
+
+        table {
+            width: 60%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .row-highlight {
+            background-color: #e3f2fd;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h2>SE COMPUTER - Student Records</h2>
+
+    <table>
+
+        <tr>
+            <th>Roll</th>
+            <th>Name</th>
+            <th>CSS Method</th>
+        </tr>
+
+        <tr class="row-highlight">
+            <td>1</td>
+            <td>Viraj</td>
+            <td>Internal CSS</td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>Chaitanya</td>
+
+            <!-- Inline CSS -->
+            <td style="color:blue; font-weight:bold;">
+                Inline CSS
+            </td>
+
+        </tr>
+
+    </table>
+
+</body>
+
+</html>
