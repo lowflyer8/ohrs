@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Kiosk Demo — Medikiosk</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .kiosk-wrap{
+    display:grid;
+    grid-template-columns: 260px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  @media (max-width: 900px){ .kiosk-wrap{ grid-template-columns: 1fr; } }
+
+  .steps{ position: sticky; top: 96px; display:flex; flex-direction:column; gap:6px; }
+  .step-item{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 14px; border-radius: var(--radius-s);
+    font-size:0.92rem; color: var(--muted); font-weight:500;
+  }
+  .step-item .dot{
+    width:22px; height:22px; border-radius:50%;
+    display:grid; place-items:center; flex-shrink:0;
+    background: var(--surface-sunken); color: var(--muted);
+    font-size:0.72rem; font-weight:700; border: 1px solid var(--line);
+  }
+  .step-item.done .dot{ background: var(--teal); border-color:var(--teal); color:#fff; }
+  .step-item.current{ background: var(--teal-tint); color: var(--teal-dark); }
+  .step-item.current .dot{ background: var(--teal); border-color:var(--teal); color:#fff; }
+
+  .kiosk-stage{ display:flex; justify-content:center; }
+  .screen-panel{ display:none; flex-direction:column; gap:16px; padding:26px; flex:1; }
+  .screen-panel.active{ display:flex; }
+
+  .option-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .option-btn{
+    text-align:left; padding:14px 16px; border-radius: var(--radius-s);
+    border:1px solid var(--line); background:var(--surface); font-weight:600; font-size:0.92rem;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .option-btn:hover{ border-color: var(--teal); background: var(--teal-tint); }
+
+  .bubble{ padding:12px 16px; border-radius:14px; max-width:85%; font-size:0.95rem; }
+  .bubble.bot{ align-self:flex-start; background:var(--surface); border:1px solid var(--line); border-bottom-left-radius:4px; }
+  .bubble.user{ align-self:flex-end; background:var(--teal); color:#fff; border-bottom-right-radius:4px; }
+  .bubble.flag{ align-self:flex-start; background:var(--red-tint); border:1px solid var(--red); color:var(--red); font-weight:600; max-width:92%; }
+  .chat-log{ display:flex; flex-direction:column; gap:10px; flex:1; overflow-y:auto; padding-right:4px; }
+
+  .scan-drop{
+    border: 2px dashed var(--line); border-radius: var(--radius-m);
+    padding: 30px; text-align:center; color:var(--muted);
+  }
+  .field-row{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line); font-size:0.9rem; }
+  .field-row:last-child{ border-bottom:none; }
+
+  .side-note{ margin-top:28px; padding:18px; border-radius: var(--radius-m); background: var(--surface-sunken); font-size:0.85rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.2-4.6-9.6-9.2C.8 8.4 2.4 4.8 6 4.2c2-.3 3.7.7 4.7 2.1a1 1 0 0 0 1.6 0c1-1.4 2.7-2.4 4.7-2.1 3.6.6 5.2 4.2 3.6 7.6C19.2 16.4 12 21 12 21z" stroke="white" stroke-width="1.5"/></svg></span>
+      <span>Medikiosk<small>Team Runtime Terror · SIH26047</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="kiosk.html" class="active">Patient Kiosk</a></li>
+      <li><a href="dashboard.html">Doctor Dashboard</a></li>
+      <li><a href="architecture.html">How It Works</a></li>
+      <li><a href="about.html">Team &amp; Research</a></li>
+    </ul>
+    <a href="dashboard.html" class="nav-cta">See doctor's view →</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span></button>
+  </div>
+</nav>
+
+<header class="section-tight">
+  <div class="wrap">
+    <div class="tag tag-teal">Live prototype walkthrough</div>
+    <h1 class="mt-16" style="font-size:clamp(1.9rem,3vw,2.6rem); max-width:700px;">This is what a patient sees at the kiosk.</h1>
+    <p class="text-muted mt-16" style="max-width:620px;">Pick a language, answer a few questions the way a real patient would, and hand over a report. Medikiosk builds the doctor's summary as you go.</p>
+  </div>
+</header>
+
+<section class="section-tight" style="padding-top:0;">
+  <div class="wrap kiosk-wrap">
+
+    <div class="steps">
+      <div class="step-item current" data-step-label="1"><span class="dot">1</span> Choose language</div>
+      <div class="step-item" data-step-label="2"><span class="dot">2</span> Talk to the chatbot</div>
+      <div class="step-item" data-step-label="3"><span class="dot">3</span> Scan a document</div>
+      <div class="step-item" data-step-label="4"><span class="dot">4</span> Review summary</div>
+      <div class="side-note">
+        In the full system this runs on a hospital touchscreen kiosk and as a companion web app, with voice input for patients who can't type.
+      </div>
+    </div>
+
+    <div class="kiosk-stage">
+      <div class="device-frame" style="width:100%; max-width:520px;">
+        <div class="device-screen">
+          <div class="device-notch"></div>
+
+          <!-- STEP 1: LANGUAGE -->
+          <div class="screen-panel active" id="panel-lang">
+            <div>
+              <h3 style="font-size:1.2rem;">Select your language</h3>
+              <p class="text-muted mt-8" style="font-size:0.9rem;">भाषा चुनें · மொழியைத் தேர்ந்தெடுக்கவும்</p>
+            </div>
+            <div class="option-grid">
+              <button class="option-btn" onclick="chooseLanguage('English')">English</button>
+              <button class="option-btn" onclick="chooseLanguage('हिन्दी')">हिन्दी</button>
+              <button class="option-btn" onclick="chooseLanguage('मराठी')">मराठी</button>
+              <button class="option-btn" onclick="chooseLanguage('தமிழ்')">தமிழ்</button>
+              <button class="option-btn" onclick="chooseLanguage('বাংলা')">বাংলা</button>
+              <button class="option-btn" onclick="chooseLanguage('ਪੰਜਾਬੀ')">ਪੰਜਾਬੀ</button>
+            </div>
+            <p class="text-muted mt-8" style="font-size:0.8rem;">Powered by Bhashini / AI4Bharat speech &amp; language models.</p>
+          </div>
+
+          <!-- STEP 2: CHATBOT -->
+          <div class="screen-panel" id="panel-chat">
+            <div class="flex justify-between items-center">
+              <h3 style="font-size:1.1rem;">Symptom check</h3>
+              <span class="tag tag-muted" id="lang-badge">English</span>
+            </div>
+            <div class="chat-log" id="chat-log" style="max-height:320px;"></div>
+            <div id="chat-options" class="option-grid"></div>
+          </div>
+
+          <!-- STEP 3: DOCUMENT SCAN -->
+          <div class="screen-panel" id="panel-scan">
+            <h3 style="font-size:1.1rem;">Scan a report or prescription</h3>
+            <p class="text-muted" style="font-size:0.9rem;">Optional — helps the doctor see your recent results.</p>
+            <div class="scan-drop" id="scan-drop">
+              <div style="font-size:2rem;">🧾</div>
+              <p class="mt-8" style="font-weight:600; color:var(--ink);">Tap to simulate a document scan</p>
+              <p class="text-muted mt-8" style="font-size:0.85rem;">Accepts photos of prescriptions, lab reports, discharge summaries</p>
+              <button class="btn btn-primary mt-16" onclick="runScan()">Simulate scan</button>
+            </div>
+            <div id="scan-result" style="display:none;">
+              <div class="tag tag-teal">Document read</div>
+              <div class="mt-16">
+                <div class="field-row"><span>Hemoglobin</span><strong>10.2 g/dL</strong></div>
+                <div class="field-row"><span>Blood pressure</span><strong>140 / 90 mmHg</strong></div>
+                <div class="field-row"><span>Current medication</span><strong>Atorvastatin 10mg</strong></div>
+                <div class="field-row"><span>Report date</span><strong>02 Sep 2026</strong></div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-block mt-16" onclick="goToStep(4)">Continue to summary</button>
+          </div>
+
+          <!-- STEP 4: SUMMARY -->
+          <div class="screen-panel" id="panel-summary">
+            <h3 style="font-size:1.1rem;">Ready for the doctor</h3>
+            <div id="summary-flag"></div>
+            <div class="card" style="padding:18px;">
+              <div class="tag tag-amber">AI-generated summary</div>
+              <p class="mt-16" id="summary-complaint" style="font-weight:600;"></p>
+              <p class="text-muted mt-8" id="summary-detail" style="font-size:0.9rem;"></p>
+              <div class="mt-16">
+                <div class="eyebrow" style="margin-bottom:6px; font-size:0.75rem;">Possible conditions</div>
+                <p id="summary-conditions" style="font-size:0.9rem;"></p>
+              </div>
+              <div class="mt-16">
+                <div class="eyebrow" style="margin-bottom:6px; font-size:0.75rem;">Suggested next step</div>
+                <p id="summary-next" style="font-size:0.9rem;"></p>
+              </div>
+            </div>
+            <a href="dashboard.html" class="btn btn-primary btn-block">Send to doctor's dashboard →</a>
+            <button class="btn btn-ghost btn-block" onclick="restart()">Start over as a new patient</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom" style="border-top:none; padding-top:0;">
+    <span>© 2026 Team Runtime Terror · SIH Idea Submission</span>
+    <a href="index.html" class="btn btn-ghost">← Back to overview</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  let path = 'normal'; // or 'flag'
+  let complaint = '';
+
+  const chatFlows = {
+    start: {
+      bot: "Hello! What's bothering you today? Pick the closest option.",
+      options: [
+        { label: 'Fever & body ache', next: 'fever' },
+        { label: 'Chest pain', next: 'chestpain' },
+        { label: 'Cough & cold', next: 'cough' },
+        { label: 'Stomach pain', next: 'stomach' },
+      ]
+    },
+    fever: {
+      user: 'Fever & body ache',
+      bot: 'How many days has this been going on?',
+      options: [
+        { label: '1–2 days', next: 'fever_mild' },
+        { label: 'More than 5 days', next: 'fever_severe' },
+      ]
+    },
+    fever_mild: {
+      user: '1–2 days',
+      bot: "Got it. On a scale of 1–10, how high would you rate the discomfort?",
+      options: [{ label: 'Around 4 — manageable', next: 'done_normal' }]
+    },
+    fever_severe: {
+      user: 'More than 5 days',
+      bot: 'Thanks — a fever lasting this long is worth a closer look. Noting that for the doctor.',
+      options: [{ label: 'Continue', next: 'done_normal' }]
+    },
+    cough: {
+      user: 'Cough & cold',
+      bot: 'Is there any shortness of breath along with it?',
+      options: [
+        { label: 'No, just cough', next: 'done_normal' },
+        { label: 'Yes, some difficulty breathing', next: 'chestpain' },
+      ]
+    },
+    stomach: {
+      user: 'Stomach pain',
+      bot: 'Where exactly, and does it get worse after eating?',
+      options: [{ label: 'Upper stomach, worse after meals', next: 'done_normal' }]
+    },
+    chestpain: {
+      user: 'Chest pain',
+      bot: 'Since when have you felt this, and does it feel tight or heavy?',
+      options: [{ label: 'Since this morning, feels tight', next: 'done_flag' }]
+    },
+    done_normal: {
+      user: null,
+      bot: "Thank you. That's enough for me to prepare a summary — let's scan a report if you have one.",
+      options: [{ label: 'Continue', next: '__advance__' }]
+    },
+    done_flag: {
+      user: 'Since this morning, feels tight',
+      bot: null,
+      flag: true,
+      options: [{ label: 'Continue', next: '__advance__' }]
+    }
+  };
+
+  function goToStep(n){
+    document.querySelectorAll('.screen-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById({1:'panel-lang',2:'panel-chat',3:'panel-scan',4:'panel-summary'}[n]).classList.add('active');
+    document.querySelectorAll('.step-item').forEach((el, i) => {
+      el.classList.remove('current','done');
+      if (i + 1 < n) el.classList.add('done');
+      if (i + 1 === n) el.classList.add('current');
+    });
+    window.scrollTo({top: document.querySelector('.kiosk-wrap').offsetTop - 90, behavior:'smooth'});
+  }
+
+  function chooseLanguage(lang){
+    document.getElementById('lang-badge').textContent = lang;
+    goToStep(2);
+    renderChat('start');
+  }
+
+  function renderChat(nodeKey){
+    const log = document.getElementById('chat-log');
+    const node = chatFlows[nodeKey];
+
+    if (node.user){
+      const u = document.createElement('div');
+      u.className = 'bubble user';
+      u.textContent = node.user;
+      log.appendChild(u);
+    }
+    if (node.flag){
+      complaint = 'Chest pain, tight sensation, started this morning';
+      path = 'flag';
+      const f = document.createElement('div');
+      f.className = 'bubble flag';
+      f.textContent = '⚠ Possible red flag detected. The doctor is being notified immediately — please stay in the waiting area.';
+      log.appendChild(f);
+    } else if (node.bot){
+      if (nodeKey === 'start') complaint = '';
+      const b = document.createElement('div');
+      b.className = 'bubble bot';
+      b.textContent = node.bot;
+      log.appendChild(b);
+    }
+    log.scrollTop = log.scrollHeight;
+
+    if (['fever','fever_mild','fever_severe','cough','stomach','chestpain'].includes(nodeKey) && !complaint){
+      // capture rough complaint text from first branch chosen
+    }
+    if (nodeKey !== 'start' && !complaint && node.user && path !== 'flag'){
+      complaint = node.user;
+    }
+
+    const opts = document.getElementById('chat-options');
+    opts.innerHTML = '';
+    node.options.forEach(o => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = o.label;
+      btn.onclick = () => {
+        if (o.next === '__advance__'){
+          goToStep(3);
+        } else {
+          renderChat(o.next);
+        }
+      };
+      opts.appendChild(btn);
+    });
+  }
+
+  function runScan(){
+    document.getElementById('scan-drop').style.display = 'none';
+    document.getElementById('scan-result').style.display = 'block';
+  }
+
+  function restart(){
+    path = 'normal';
+    complaint = '';
+    document.getElementById('scan-drop').style.display = 'block';
+    document.getElementById('scan-result').style.display = 'none';
+    document.getElementById('chat-log').innerHTML = '';
+    goToStep(1);
+  }
+
+  // Build summary when step 4 is reached
+  const summaryObserver = new MutationObserver(() => {
+    if (document.getElementById('panel-summary').classList.contains('active')){
+      const flagBox = document.getElementById('summary-flag');
+      const complaintText = complaint || 'General symptom check';
+      document.getElementById('summary-complaint').textContent = 'Chief complaint: ' + complaintText;
+      if (path === 'flag'){
+        flagBox.innerHTML = '<div class="tag tag-red mt-8">🚩 Red flag — doctor notified directly</div>';
+        document.getElementById('summary-detail').textContent = 'Patient reported tight chest pain beginning this morning. This pattern is treated as urgent and was escalated during the conversation rather than waiting for the queue.';
+        document.getElementById('summary-conditions').textContent = 'Possible cardiac involvement — requires immediate clinical assessment.';
+        document.getElementById('summary-next').textContent = 'Bring the patient in ahead of the queue; ECG and vitals recommended on arrival.';
+      } else {
+        flagBox.innerHTML = '<div class="tag tag-teal mt-8">No red flags found</div>';
+        document.getElementById('summary-detail').textContent = 'Collected from the conversation and the scanned report: mildly elevated blood pressure and a hemoglobin level slightly below normal range.';
+        document.getElementById('summary-conditions').textContent = 'Likely mild, non-urgent — pattern consistent with the reported symptoms.';
+        document.getElementById('summary-next').textContent = 'Routine consultation; review scanned report values with patient.';
+      }
+    }
+  });
+  summaryObserver.observe(document.getElementById('panel-summary'), { attributes:true, attributeFilter:['class'] });
+</script>
+</body>
+</html>

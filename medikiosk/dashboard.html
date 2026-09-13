@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Dashboard — Medikiosk</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .dash{
+    display:grid;
+    grid-template-columns: 220px 1fr 360px;
+    gap: 24px;
+    align-items:start;
+  }
+  @media (max-width: 1100px){ .dash{ grid-template-columns: 1fr; } }
+
+  .dash-side{ position:sticky; top:96px; display:flex; flex-direction:column; gap:4px; }
+  .dash-side a{
+    display:flex; align-items:center; gap:10px;
+    padding:11px 14px; border-radius:var(--radius-s);
+    font-size:0.92rem; font-weight:500; color:var(--muted);
+  }
+  .dash-side a.active{ background:var(--teal-tint); color:var(--teal-dark); font-weight:600; }
+  .dash-side a:hover{ background: var(--surface-sunken); }
+  .badge-count{
+    margin-left:auto; background:var(--red); color:#fff; font-size:0.72rem;
+    padding:1px 7px; border-radius:999px; font-weight:700;
+  }
+
+  .patient-row{
+    display:flex; align-items:center; gap:14px;
+    padding:16px; border-radius:var(--radius-m); border:1px solid var(--line);
+    background:var(--surface); cursor:pointer; margin-bottom:10px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .patient-row:hover{ border-color: var(--teal); }
+  .patient-row.selected{ border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-tint); }
+  .patient-row.flag{ border-color: var(--red); background: var(--red-tint); }
+  .avatar{
+    width:42px; height:42px; border-radius:50%; flex-shrink:0;
+    display:grid; place-items:center; font-weight:700; color:#fff; font-size:0.9rem;
+  }
+  .p-meta{ flex:1; min-width:0; }
+  .p-meta .name{ font-weight:600; font-size:0.96rem; }
+  .p-meta .sub{ color:var(--muted); font-size:0.82rem; margin-top:2px; }
+
+  .detail-panel{
+    position:sticky; top:96px;
+    border:1px solid var(--line); border-radius:var(--radius-m);
+    background:var(--surface); padding:24px;
+  }
+  .kv{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--line); font-size:0.88rem; }
+  .kv:last-child{ border-bottom:none; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.2-4.6-9.6-9.2C.8 8.4 2.4 4.8 6 4.2c2-.3 3.7.7 4.7 2.1a1 1 0 0 0 1.6 0c1-1.4 2.7-2.4 4.7-2.1 3.6.6 5.2 4.2 3.6 7.6C19.2 16.4 12 21 12 21z" stroke="white" stroke-width="1.5"/></svg></span>
+      <span>Medikiosk<small>Team Runtime Terror · SIH26047</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="kiosk.html">Patient Kiosk</a></li>
+      <li><a href="dashboard.html" class="active">Doctor Dashboard</a></li>
+      <li><a href="architecture.html">How It Works</a></li>
+      <li><a href="about.html">Team &amp; Research</a></li>
+    </ul>
+    <a href="kiosk.html" class="nav-cta">Patient view →</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span></button>
+  </div>
+</nav>
+
+<header class="section-tight">
+  <div class="wrap">
+    <div class="tag tag-teal">Live prototype walkthrough</div>
+    <h1 class="mt-16" style="font-size:clamp(1.9rem,3vw,2.6rem);">Dr. Mehta's OPD queue, this morning.</h1>
+    <p class="text-muted mt-16" style="max-width:620px;">Every patient who used the kiosk already arrives here with a summary attached. Select a name to open their case.</p>
+  </div>
+</header>
+
+<section class="section-tight" style="padding-top:0;">
+  <div class="wrap dash">
+
+    <nav class="dash-side">
+      <a href="#" class="active">🩺 Patient queue <span class="badge-count">4</span></a>
+      <a href="#">🚩 Red flag alerts <span class="badge-count">1</span></a>
+      <a href="#">📅 Appointments</a>
+      <a href="#">💬 Messages</a>
+      <a href="#">⚙️ Settings</a>
+      <div class="side-note card mt-24" style="font-size:0.82rem; color:var(--muted); padding:16px;">
+        This dashboard mirrors the Zone 3 &amp; Zone 4 services from the technical architecture: patient &amp; session management, clinical data, and the red flag detection engine.
+      </div>
+    </nav>
+
+    <div id="patient-list">
+      <!-- rows injected by JS -->
+    </div>
+
+    <div class="detail-panel" id="detail-panel">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom" style="border-top:none; padding-top:0;">
+    <span>© 2026 Team Runtime Terror · SIH Idea Submission</span>
+    <a href="index.html" class="btn btn-ghost">← Back to overview</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const patients = [
+    {
+      id: 1, name: 'Arvind Kulkarni', age: 61, sex: 'M', token: 'OPD-014', flag: true, color:'#B84331',
+      complaint: 'Chest pain, tight sensation, started this morning',
+      waited: '4 min', vitals: 'BP 150/95 · HR 102',
+      conditions: 'Possible cardiac involvement — needs immediate assessment',
+      next: 'Bring in ahead of queue; ECG and vitals on arrival',
+      history: 'Reported via kiosk chatbot — escalated automatically as a red flag before reaching the queue.'
+    },
+    {
+      id: 2, name: 'Sunita Rao', age: 45, sex: 'F', token: 'OPD-015', flag:false, color:'#0F5C52',
+      complaint: 'Fever and body ache, 6 days',
+      waited: '11 min', vitals: 'Temp 100.9°F · BP 128/84',
+      conditions: 'Likely viral fever; duration flagged for review',
+      next: 'Routine consultation; consider blood work given duration',
+      history: 'Kiosk conversation + no documents scanned.'
+    },
+    {
+      id: 3, name: 'Farhan Sheikh', age: 34, sex: 'M', token: 'OPD-016', flag:false, color:'#DD8A45',
+      complaint: 'Cough and mild cold, 2 days',
+      waited: '9 min', vitals: 'Temp 99.1°F · SpO2 98%',
+      conditions: 'Mild upper respiratory infection',
+      next: 'Routine consultation; symptomatic treatment likely sufficient',
+      history: 'Kiosk conversation, no shortness of breath reported.'
+    },
+    {
+      id: 4, name: 'Meena Iyer', age: 58, sex: 'F', token: 'OPD-017', flag:false, color:'#4B5D58',
+      complaint: 'Upper stomach pain, worse after meals',
+      waited: '15 min', vitals: 'BP 132/86',
+      conditions: 'Possible gastritis; hemoglobin slightly low on scanned report',
+      next: 'Review scanned lab report values with patient during consult',
+      history: 'Kiosk conversation + 1 lab report scanned (Hemoglobin 10.2 g/dL).'
+    },
+  ];
+
+  function initials(name){ return name.split(' ').map(w=>w[0]).slice(0,2).join(''); }
+
+  function renderList(){
+    const list = document.getElementById('patient-list');
+    list.innerHTML = '';
+    patients.forEach(p => {
+      const row = document.createElement('div');
+      row.className = 'patient-row' + (p.flag ? ' flag' : '');
+      row.id = 'row-' + p.id;
+      row.onclick = () => selectPatient(p.id);
+      row.innerHTML = `
+        <div class="avatar" style="background:${p.color}">${initials(p.name)}</div>
+        <div class="p-meta">
+          <div class="name">${p.name} <span class="text-muted" style="font-weight:400;">· ${p.age}${p.sex}</span></div>
+          <div class="sub">${p.token} · waited ${p.waited} · ${p.complaint}</div>
+        </div>
+        ${p.flag ? '<span class="tag tag-red">Red flag</span>' : '<span class="tag tag-teal">Ready</span>'}
+      `;
+      list.appendChild(row);
+    });
+  }
+
+  function selectPatient(id){
+    document.querySelectorAll('.patient-row').forEach(r => r.classList.remove('selected'));
+    document.getElementById('row-' + id).classList.add('selected');
+    const p = patients.find(x => x.id === id);
+    const panel = document.getElementById('detail-panel');
+    panel.innerHTML = `
+      <div class="flex items-center gap-12">
+        <div class="avatar" style="background:${p.color}">${initials(p.name)}</div>
+        <div>
+          <div style="font-weight:700;">${p.name}</div>
+          <div class="text-muted" style="font-size:0.82rem;">${p.token} · ${p.age}${p.sex}</div>
+        </div>
+      </div>
+      ${p.flag ? '<div class="tag tag-red mt-16">🚩 Escalated by red flag detection</div>' : '<div class="tag tag-teal mt-16">No red flags found</div>'}
+      <div class="mt-24">
+        <div class="eyebrow" style="font-size:0.72rem; margin-bottom:8px;">AI-generated summary</div>
+        <div class="kv"><span>Chief complaint</span><strong style="text-align:right; max-width:60%;">${p.complaint}</strong></div>
+        <div class="kv"><span>Vitals</span><strong>${p.vitals}</strong></div>
+        <div class="kv"><span>Waited</span><strong>${p.waited}</strong></div>
+      </div>
+      <div class="mt-24">
+        <div class="eyebrow" style="font-size:0.72rem; margin-bottom:8px;">Possible conditions</div>
+        <p style="font-size:0.9rem;">${p.conditions}</p>
+      </div>
+      <div class="mt-16">
+        <div class="eyebrow" style="font-size:0.72rem; margin-bottom:8px;">Suggested next step</div>
+        <p style="font-size:0.9rem;">${p.next}</p>
+      </div>
+      <div class="mt-16">
+        <div class="eyebrow" style="font-size:0.72rem; margin-bottom:8px;">How this was collected</div>
+        <p style="font-size:0.85rem; color:var(--muted);">${p.history}</p>
+      </div>
+      <button class="btn btn-primary btn-block mt-24">Confirm &amp; call in patient</button>
+      <button class="btn btn-ghost btn-block mt-8">Edit summary</button>
+    `;
+  }
+
+  renderList();
+  selectPatient(1);
+</script>
+</body>
+</html>

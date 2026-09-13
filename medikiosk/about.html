@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team &amp; Research — Medikiosk</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .ref-item{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:16px;
+    padding:16px 0; border-bottom:1px solid var(--line); font-size:0.94rem;
+  }
+  .ref-item:last-child{ border-bottom:none; }
+  .ref-item a{ color:var(--teal); font-weight:600; white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.2-4.6-9.6-9.2C.8 8.4 2.4 4.8 6 4.2c2-.3 3.7.7 4.7 2.1a1 1 0 0 0 1.6 0c1-1.4 2.7-2.4 4.7-2.1 3.6.6 5.2 4.2 3.6 7.6C19.2 16.4 12 21 12 21z" stroke="white" stroke-width="1.5"/></svg></span>
+      <span>Medikiosk<small>Team Runtime Terror · SIH26047</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="kiosk.html">Patient Kiosk</a></li>
+      <li><a href="dashboard.html">Doctor Dashboard</a></li>
+      <li><a href="architecture.html">How It Works</a></li>
+      <li><a href="about.html" class="active">Team &amp; Research</a></li>
+    </ul>
+    <a href="kiosk.html" class="nav-cta">Try the demo →</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span></button>
+  </div>
+</nav>
+
+<header class="section-tight">
+  <div class="wrap">
+    <div class="tag tag-teal">Smart India Hackathon 2026</div>
+    <h1 class="mt-16" style="font-size:clamp(1.9rem,3vw,2.6rem);">Team Runtime Terror</h1>
+    <p class="text-muted mt-16" style="max-width:600px;">Building Medikiosk for Problem Statement SIH26047 — Patient Case-Taking Software, under the Medtech theme, Software category.</p>
+  </div>
+</header>
+
+<section class="section-tight" style="padding-top:0;">
+  <div class="wrap grid grid-3">
+    <div class="card"><div class="eyebrow" style="font-size:0.75rem;">Problem statement ID</div><strong>SIH26047</strong></div>
+    <div class="card"><div class="eyebrow" style="font-size:0.75rem;">Theme</div><strong>Medtech</strong></div>
+    <div class="card"><div class="eyebrow" style="font-size:0.75rem;">Category</div><strong>Software</strong></div>
+  </div>
+</section>
+
+<section id="references">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Research &amp; references</div>
+      <h2>Grounded in existing digital health infrastructure.</h2>
+      <p>Medikiosk is designed to plug into standards and platforms that already exist in India's digital health ecosystem, rather than building a closed system from scratch.</p>
+    </div>
+    <div class="card">
+      <div class="ref-item">
+        <span><strong>Ayushman Bharat Digital Mission (ABDM)</strong> — ABHA and the interoperable digital-health ecosystem Medikiosk connects patient records to.</span>
+      </div>
+      <div class="ref-item">
+        <span><strong>Bhashini / AI4Bharat</strong> — Indian-language speech and language technologies powering the multilingual chatbot.</span>
+      </div>
+      <div class="ref-item">
+        <span><strong>HL7 FHIR</strong> — the healthcare interoperability standard used for structured clinical data exchange.</span>
+      </div>
+      <div class="ref-item">
+        <span><strong>Digital Personal Data Protection Act, 2023</strong> — the legal basis for how patient data is handled and protected.</span>
+      </div>
+      <div class="ref-item">
+        <span><strong>BMJ Open (2017)</strong> — international evidence on consultation time, referenced in the original problem statement.</span>
+      </div>
+    </div>
+    <p class="text-muted mt-24" style="font-size:0.88rem;">Further reading: sciencedirect.com · researchgate.net · academia.edu</p>
+  </div>
+</section>
+
+<section style="background:var(--surface-sunken);">
+  <div class="wrap text-center">
+    <h2 style="font-size:1.6rem;">Take another look around</h2>
+    <div class="flex gap-16 mt-24" style="justify-content:center; flex-wrap:wrap;">
+      <a href="kiosk.html" class="btn btn-primary">Patient kiosk demo</a>
+      <a href="dashboard.html" class="btn btn-ghost">Doctor dashboard</a>
+      <a href="architecture.html" class="btn btn-ghost">Architecture</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom" style="border-top:none; padding-top:0;">
+    <span>© 2026 Team Runtime Terror · SIH Idea Submission</span>
+    <a href="index.html" class="btn btn-ghost">← Back to overview</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

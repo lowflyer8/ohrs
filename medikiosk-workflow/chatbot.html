@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat with Chatbot — Medikiosk</title>
+<link rel="stylesheet" href="basic.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <a href="index.html" class="site-title">Medikiosk</a>
+    <a href="index.html" class="home-link">Log out</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="patient.html">Patient Portal</a> &gt; Chat with Chatbot</div>
+  <h1>Chat with Chatbot</h1>
+
+  <div class="chat-box">
+    <div class="chat-line bot">Hello! What symptoms are you experiencing today?</div>
+    <div class="chat-line user">I have had chest pain since this morning.</div>
+    <div class="chat-line bot">Does it feel tight or heavy, and has it changed since it started?</div>
+    <div class="chat-line user">Yes, it feels tight and hasn't gone away.</div>
+  </div>
+
+  <h2>Get info about user health</h2>
+  <p>Based on the conversation, the chatbot decides what happens next:</p>
+
+  <div class="node-links">
+    <a class="node-link" href="dangerous-symptoms.html">
+      Dangerous symptoms found
+      <span class="desc">Symptoms match a red-flag pattern</span>
+    </a>
+    <a class="node-link" href="prescription-approval.html">
+      Send prescription for doctor approval
+      <span class="desc">Symptoms look routine</span>
+    </a>
+  </div>
+
+  <div class="actions">
+    <a href="upload-documents.html" class="btn btn-secondary">Upload a document instead</a>
+    <a href="patient.html" class="btn btn-secondary">Back to Patient Portal</a>
+  </div>
+</div>
+
+<footer class="pagefoot">Medikiosk workflow prototype — Team Runtime Terror</footer>
+</body>
+</html>

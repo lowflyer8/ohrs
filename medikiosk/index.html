@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medikiosk — Patient Case-Taking Software</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7.2-4.6-9.6-9.2C.8 8.4 2.4 4.8 6 4.2c2-.3 3.7.7 4.7 2.1a1 1 0 0 0 1.6 0c1-1.4 2.7-2.4 4.7-2.1 3.6.6 5.2 4.2 3.6 7.6C19.2 16.4 12 21 12 21z" stroke="white" stroke-width="1.5"/><path d="M4 12h3l1.5-3L11 15l1.5-4.5L14 12h6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span>Medikiosk<small>Team Runtime Terror · SIH26047</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="kiosk.html">Patient Kiosk</a></li>
+      <li><a href="dashboard.html">Doctor Dashboard</a></li>
+      <li><a href="architecture.html">How It Works</a></li>
+      <li><a href="about.html">Team &amp; Research</a></li>
+    </ul>
+    <a href="kiosk.html" class="nav-cta">Try the kiosk demo →</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="section-tight">
+  <div class="wrap grid grid-2" style="align-items:center; gap:56px;">
+    <div>
+      <div class="tag tag-teal">SIH 2026 · SIH26047 · Medtech</div>
+      <h1 style="font-size:clamp(2.2rem,4vw,3.4rem); margin-top:18px;">
+        The history-taking assistant that talks to patients before the doctor does.
+      </h1>
+      <p class="text-muted mt-24" style="font-size:1.15rem; max-width:520px;">
+        Medikiosk is a multilingual kiosk and web app that has a short conversation with every patient,
+        reads their medical documents, and hands the doctor a ready summary — flagged instantly if something
+        looks dangerous.
+      </p>
+      <div class="flex gap-16 mt-32" style="flex-wrap:wrap;">
+        <a href="kiosk.html" class="btn btn-primary">Walk through the patient kiosk</a>
+        <a href="dashboard.html" class="btn btn-ghost">See the doctor's view</a>
+      </div>
+      <div class="flex gap-24 mt-32" style="flex-wrap:wrap;">
+        <div><strong style="font-family:'Space Grotesk';font-size:1.4rem;">4</strong><div class="text-muted" style="font-size:0.85rem;">core AI modules</div></div>
+        <div><strong style="font-family:'Space Grotesk';font-size:1.4rem;">ABHA/ABDM</strong><div class="text-muted" style="font-size:0.85rem;">+ FHIR interoperable</div></div>
+        <div><strong style="font-family:'Space Grotesk';font-size:1.4rem;">Multilingual</strong><div class="text-muted" style="font-size:0.85rem;">voice &amp; touch</div></div>
+      </div>
+    </div>
+
+    <div class="device-frame">
+      <div class="device-screen">
+        <div class="device-notch" style="background:var(--teal-dark);"></div>
+        <div style="padding:22px; background:var(--teal-dark); color:#fff;">
+          <div class="flex items-center gap-8">
+            <div style="width:8px;height:8px;border-radius:50%;background:#5FE0B8;"></div>
+            <span style="font-size:0.85rem; opacity:0.85;">Medikiosk · OPD Reception</span>
+          </div>
+        </div>
+        <div style="padding:22px; flex:1; display:flex; flex-direction:column; gap:14px; background:var(--surface-sunken);">
+          <div style="align-self:flex-start; max-width:80%; background:var(--surface); border:1px solid var(--line); padding:12px 16px; border-radius:14px 14px 14px 4px;">
+            नमस्ते! आपको क्या तकलीफ़ हो रही है? (What's bothering you today?)
+          </div>
+          <div style="align-self:flex-end; max-width:80%; background:var(--teal); color:#fff; padding:12px 16px; border-radius:14px 14px 4px 14px;">
+            Chest pain since this morning, feels tight.
+          </div>
+          <div style="align-self:flex-start; max-width:88%; background:var(--red-tint); border:1px solid var(--red); color:var(--red); padding:12px 16px; border-radius:14px; font-size:0.9rem; font-weight:600;">
+            ⚠ Possible red flag detected — notifying the doctor now.
+          </div>
+          <div style="margin-top:auto; display:flex; gap:8px;">
+            <div style="flex:1; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:10px 16px; color:var(--muted); font-size:0.9rem;">Type or speak your answer…</div>
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--teal); flex-shrink:0;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM CONTEXT -->
+<section class="section-tight" style="background:var(--surface-sunken);">
+  <div class="wrap grid grid-3">
+    <div>
+      <div class="eyebrow">The problem</div>
+      <p style="font-size:1.05rem;">Doctors spend a large share of every OPD consultation just collecting history — symptoms, past reports, medication — before diagnosis even starts.</p>
+    </div>
+    <div>
+      <div class="eyebrow">Who feels it</div>
+      <p style="font-size:1.05rem;">Elderly and low-literacy patients struggle to describe symptoms; hospitals drown in paperwork; doctors lose time they could spend treating people.</p>
+    </div>
+    <div>
+      <div class="eyebrow">Our approach</div>
+      <p style="font-size:1.05rem;">Let a multilingual kiosk take the history first — by voice or touch — so the doctor opens the file already knowing what matters.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CORE FEATURES -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Proposed solution</div>
+      <h2>Four modules do the work before the patient reaches the doctor.</h2>
+      <p>Each one is demonstrated in the interactive kiosk walkthrough.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="tag tag-teal">01 · Conversation</div>
+        <h3 class="mt-16" style="font-size:1.3rem;">Multilingual chatbot</h3>
+        <p class="text-muted mt-8">Has a short, guided conversation with the patient, asks follow-up questions about their complaint, and collects the basic information a doctor would otherwise ask for first.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-teal">02 · Intake</div>
+        <h3 class="mt-16" style="font-size:1.3rem;">Document scanner</h3>
+        <p class="text-muted mt-8">Scans prescriptions and lab reports, extracts the values and conclusions that matter, and stores them securely against the patient's record.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-amber">03 · Intelligence</div>
+        <h3 class="mt-16" style="font-size:1.3rem;">Summary generator</h3>
+        <p class="text-muted mt-8">Turns the conversation and scanned documents into a short clinical summary — a likely list of conditions and a suggested treatment direction for the doctor to review.</p>
+      </div>
+      <div class="card" style="border-color:var(--red); background:var(--red-tint);">
+        <div class="tag tag-red">04 · Safety</div>
+        <h3 class="mt-16" style="font-size:1.3rem;">Red flag detection</h3>
+        <p class="text-muted mt-8">If the conversation surfaces symptoms that could be serious, Medikiosk skips the queue and alerts the doctor directly, instead of waiting for the summary.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADDITIONAL INNOVATIONS -->
+<section style="background:var(--teal-dark); color:#fff;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" style="color:#8FD6C4;">Beyond the kiosk</div>
+      <h2 style="color:#fff;">The same record keeps working after the visit.</h2>
+    </div>
+    <div class="grid grid-3">
+      <div style="background:rgba(255,255,255,0.06); border-radius:var(--radius-m); padding:26px; border:1px solid rgba(255,255,255,0.12);">
+        <h3 style="font-size:1.1rem;color:#fff;">Remote vital monitoring</h3>
+        <p class="mt-8" style="color:#C9DCD6;">Doctors can check a patient's vitals even when the patient isn't physically at the hospital.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.06); border-radius:var(--radius-m); padding:26px; border:1px solid rgba(255,255,255,0.12);">
+        <h3 style="font-size:1.1rem;color:#fff;">Smart prescription reminders</h3>
+        <p class="mt-8" style="color:#C9DCD6;">Patients get a nudge on their phone when it's time to take medication prescribed at the visit.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.06); border-radius:var(--radius-m); padding:26px; border:1px solid rgba(255,255,255,0.12);">
+        <h3 style="font-size:1.1rem;color:#fff;">Geolocal doctor availability</h3>
+        <p class="mt-8" style="color:#C9DCD6;">Patients can see which doctors are available nearby before they travel to a hospital.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Impact</div>
+      <h2>Everyone in the OPD gets time back.</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3 style="font-size:1.05rem;">Doctor</h3>
+        <p class="text-muted mt-8">Opens a structured summary with history and prior reports already organised, and can focus on diagnosis rather than data entry.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:1.05rem;">Patient</h3>
+        <p class="text-muted mt-8">Describes symptoms in their own language, by voice or touch, and spends less time waiting to be understood.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:1.05rem;">Hospital</h3>
+        <p class="text-muted mt-8">Cuts manual documentation and keeps records interoperable, so OPDs manage higher patient volumes without more paperwork.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-tight">
+  <div class="wrap card" style="text-align:center; padding:56px 32px; background:var(--amber-tint); border-color:var(--amber);">
+    <h2 style="font-size:1.8rem;">See it end to end.</h2>
+    <p class="text-muted mt-8" style="max-width:480px; margin:8px auto 0;">Walk through the patient kiosk conversation, then switch to the doctor's dashboard to see the same case land as a ready summary.</p>
+    <div class="flex gap-16 mt-24" style="justify-content:center; flex-wrap:wrap;">
+      <a href="kiosk.html" class="btn btn-amber">Start the kiosk demo</a>
+      <a href="architecture.html" class="btn btn-ghost">View the architecture</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="margin-bottom:12px;">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.2-4.6-9.6-9.2C.8 8.4 2.4 4.8 6 4.2c2-.3 3.7.7 4.7 2.1a1 1 0 0 0 1.6 0c1-1.4 2.7-2.4 4.7-2.1 3.6.6 5.2 4.2 3.6 7.6C19.2 16.4 12 21 12 21z" stroke="white" stroke-width="1.5"/></svg></span>
+          <span>Medikiosk</span>
+        </div>
+        <p class="text-muted" style="max-width:280px; font-size:0.92rem;">Patient case-taking software for Smart India Hackathon 2026 · Problem Statement SIH26047 · Team Runtime Terror.</p>
+      </div>
+      <div>
+        <h4>Prototype</h4>
+        <ul>
+          <li><a href="kiosk.html">Patient kiosk</a></li>
+          <li><a href="dashboard.html">Doctor dashboard</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <ul>
+          <li><a href="about.html">Team &amp; references</a></li>
+          <li><a href="about.html#references">Research</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Standards</h4>
+        <ul>
+          <li><a href="architecture.html#stack">ABHA / ABDM</a></li>
+          <li><a href="architecture.html#stack">HL7 FHIR</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Team Runtime Terror · SIH Idea Submission</span>
+      <span>Built for Smart India Hackathon 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

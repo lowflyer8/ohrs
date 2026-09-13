@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Documents — Medikiosk</title>
+<link rel="stylesheet" href="basic.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <a href="index.html" class="site-title">Medikiosk</a>
+    <a href="index.html" class="home-link">Log out</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="patient.html">Patient Portal</a> &gt; Upload Documents</div>
+  <h1>Upload Documents</h1>
+  <div class="box">
+    <form onsubmit="event.preventDefault(); document.getElementById('confirm').style.display='block';">
+      <label for="doc">Prescription or lab report</label>
+      <input type="file" id="doc">
+      <div class="actions">
+        <button type="submit" class="btn">Upload</button>
+      </div>
+    </form>
+    <div id="confirm" class="notice" style="display:none; margin-top:16px;">
+      Document uploaded and scanned. Its values have been added to your health information.
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="chatbot.html" class="btn btn-secondary">Continue to Chat with Chatbot</a>
+    <a href="patient.html" class="btn btn-secondary">Back to Patient Portal</a>
+  </div>
+</div>
+
+<footer class="pagefoot">Medikiosk workflow prototype — Team Runtime Terror</footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospitals Needing Doctors in Emergency — Medikiosk</title>
+<link rel="stylesheet" href="basic.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <a href="index.html" class="site-title">Medikiosk</a>
+    <a href="index.html" class="home-link">Log out</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="hospital.html">Hospital Portal</a> &gt; Hospitals Needing Doctors in Emergency</div>
+  <h1>Request a Doctor — Emergency</h1>
+  <div class="box">
+    <form onsubmit="event.preventDefault(); document.getElementById('confirm').style.display='block';">
+      <label for="reason">Reason for request</label>
+      <input type="text" id="reason" placeholder="e.g. No cardiologist on duty" required>
+      <label for="urgency">Urgency</label>
+      <select id="urgency">
+        <option>High</option>
+        <option>Medium</option>
+        <option>Low</option>
+      </select>
+      <div class="actions">
+        <button type="submit" class="btn">Send request to Emergency Database</button>
+      </div>
+    </form>
+    <div id="confirm" class="notice" style="display:none; margin-top:16px;">
+      Request sent. It now appears in the Doctors / Hospital Emergency Database and in the doctor's "Hospitals Needing Doctors" list.
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="emergency-database.html" class="btn btn-secondary">View Emergency Database</a>
+    <a href="hospital.html" class="btn btn-secondary">Back to Hospital Portal</a>
+  </div>
+</div>
+
+<footer class="pagefoot">Medikiosk workflow prototype — Team Runtime Terror</footer>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How It Works — Medikiosk</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .zone-rail{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:16px;
+    align-items:stretch;
+  }
+  @media (max-width: 1000px){ .zone-rail{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px){ .zone-rail{ grid-template-columns: 1fr; } }
+
+  .zone{
+    border-radius: var(--radius-m);
+    padding: 20px;
+    border: 1px solid var(--line);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .zone h3{ font-size:1rem; }
+  .zone .zone-label{ font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; opacity:0.7; }
+  .zone-item{
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.83rem;
+    font-weight:500;
+  }
+  .zone-1{ background:#EAF1F8; }
+  .zone-2{ background:#EAF6F1; }
+  .zone-3{ background:#F1EDF8; }
+  .zone-4{ background:#FBF1E6; }
+  .zone-arrow{ text-align:center; color:var(--muted); font-size:1.3rem; align-self:center; }
+
+  .stack-group{ margin-bottom:22px; }
+  .stack-group h4{ font-size:0.85rem; color:var(--muted); margin-bottom:10px; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{ padding:7px 14px; border-radius:999px; background:var(--surface-sunken); border:1px solid var(--line); font-size:0.85rem; font-weight:500; }
+
+  .cvs-row{ display:grid; grid-template-columns: 1fr auto 1fr; gap:16px; align-items:center; margin-bottom:14px; }
+  .cvs-row .arrow{ text-align:center; color:var(--muted); font-size:1.4rem; }
+  @media (max-width: 700px){ .cvs-row{ grid-template-columns:1fr; } .cvs-row .arrow{ transform:rotate(90deg); } }
+  .challenge-card{ background:var(--red-tint); border:1px solid var(--red); border-radius:var(--radius-s); padding:16px; }
+  .solution-card{ background:var(--teal-tint); border:1px solid var(--teal); border-radius:var(--radius-s); padding:16px; }
+
+  .plan-rail{ display:flex; gap:16px; overflow-x:auto; padding-bottom:8px; }
+  .plan-step{ min-width:190px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-m); padding:18px; }
+  .plan-step .n{ width:30px; height:30px; border-radius:50%; background:var(--amber); color:#fff; display:grid; place-items:center; font-weight:700; font-size:0.85rem; margin-bottom:12px; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.2-4.6-9.6-9.2C.8 8.4 2.4 4.8 6 4.2c2-.3 3.7.7 4.7 2.1a1 1 0 0 0 1.6 0c1-1.4 2.7-2.4 4.7-2.1 3.6.6 5.2 4.2 3.6 7.6C19.2 16.4 12 21 12 21z" stroke="white" stroke-width="1.5"/></svg></span>
+      <span>Medikiosk<small>Team Runtime Terror · SIH26047</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="kiosk.html">Patient Kiosk</a></li>
+      <li><a href="dashboard.html">Doctor Dashboard</a></li>
+      <li><a href="architecture.html" class="active">How It Works</a></li>
+      <li><a href="about.html">Team &amp; Research</a></li>
+    </ul>
+    <a href="kiosk.html" class="nav-cta">Try the demo →</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span></button>
+  </div>
+</nav>
+
+<header class="section-tight">
+  <div class="wrap">
+    <div class="tag tag-teal">Technical approach</div>
+    <h1 class="mt-16" style="font-size:clamp(1.9rem,3vw,2.6rem); max-width:700px;">Four zones, one patient record.</h1>
+    <p class="text-muted mt-16" style="max-width:640px;">From the kiosk screen to the doctor's dashboard, data moves through four layers — each one shown in the demo pages, wired together the same way here.</p>
+  </div>
+</header>
+
+<!-- ZONE DIAGRAM -->
+<section class="section-tight" style="padding-top:0;">
+  <div class="wrap">
+    <div class="zone-rail">
+      <div class="zone zone-1">
+        <div class="zone-label">Zone 1</div>
+        <h3>Users &amp; external services</h3>
+        <div class="zone-item">Patient · Doctor · Hospital staff</div>
+        <div class="zone-item">ABHA / ABDM health ID</div>
+        <div class="zone-item">FHIR interoperability</div>
+        <div class="zone-item">Bhashini / AI4Bharat</div>
+        <div class="zone-item">Hospital HIS / EMR</div>
+      </div>
+      <div class="zone zone-2">
+        <div class="zone-label">Zone 2</div>
+        <h3>Frontend — presentation layer</h3>
+        <div class="zone-item">Patient kiosk / web app</div>
+        <div class="zone-item">Voice interaction</div>
+        <div class="zone-item">Touchscreen interface</div>
+        <div class="zone-item">Language selection</div>
+        <div class="zone-item">Doctor dashboard (web)</div>
+      </div>
+      <div class="zone zone-3">
+        <div class="zone-label">Zone 3</div>
+        <h3>Backend — application layer</h3>
+        <div class="zone-item">API gateway · auth (JWT/OAuth)</div>
+        <div class="zone-item">Patient &amp; session management</div>
+        <div class="zone-item">Clinical data management</div>
+        <div class="zone-item">Integration service (ABDM/FHIR)</div>
+        <div class="zone-item">Notification &amp; audit logging</div>
+      </div>
+      <div class="zone zone-4">
+        <div class="zone-label">Zone 4</div>
+        <h3>Data &amp; intelligence — "the brain"</h3>
+        <div class="zone-item">Speech-to-text / text-to-speech</div>
+        <div class="zone-item">OCR + medical NLP / NER</div>
+        <div class="zone-item">Red flag detection engine</div>
+        <div class="zone-item">Summarisation engine</div>
+        <div class="zone-item">Cloud storage · MySQL / PostgreSQL</div>
+      </div>
+    </div>
+    <p class="text-muted text-center mt-24" style="font-size:0.88rem;">Requests flow left to right as HTTPS/TLS calls; intelligence results and alerts flow back the same path to the doctor dashboard.</p>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="stack" style="background:var(--surface-sunken);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Technology stack</div>
+      <h2>Built on tools the team already ships with.</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="stack-group card">
+        <h4>Developer tools</h4>
+        <div class="chip-row">
+          <span class="chip">VS Code</span><span class="chip">Android Studio</span>
+          <span class="chip">PyCharm</span><span class="chip">Git &amp; GitHub</span>
+        </div>
+      </div>
+      <div class="stack-group card">
+        <h4>Frontend</h4>
+        <div class="chip-row">
+          <span class="chip">Figma (UI/UX)</span><span class="chip">HTML / CSS</span>
+          <span class="chip">JavaScript</span><span class="chip">React.js</span>
+        </div>
+      </div>
+      <div class="stack-group card">
+        <h4>Backend</h4>
+        <div class="chip-row">
+          <span class="chip">Java</span><span class="chip">Node.js / Express</span>
+          <span class="chip">Redis</span><span class="chip">Firebase</span><span class="chip">MySQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEASIBILITY -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Feasibility &amp; viability</div>
+      <h2>What could go wrong, and how the design answers it.</h2>
+    </div>
+    <div class="cvs-row">
+      <div class="challenge-card"><strong>Data privacy</strong><p class="mt-8" style="font-size:0.9rem;">Personal healthcare data needs strong protection.</p></div>
+      <div class="arrow">→</div>
+      <div class="solution-card"><strong>Data protection</strong><p class="mt-8" style="font-size:0.9rem;">Encryption and role-based access control on every record.</p></div>
+    </div>
+    <div class="cvs-row">
+      <div class="challenge-card"><strong>Adoption</strong><p class="mt-8" style="font-size:0.9rem;">Older or less tech-familiar patients may hesitate to use a kiosk.</p></div>
+      <div class="arrow">→</div>
+      <div class="solution-card"><strong>Community trust</strong><p class="mt-8" style="font-size:0.9rem;">On-site guidance and outreach to build familiarity before rollout.</p></div>
+    </div>
+    <div class="cvs-row">
+      <div class="challenge-card"><strong>Accuracy</strong><p class="mt-8" style="font-size:0.9rem;">A chatbot can occasionally misread a symptom.</p></div>
+      <div class="arrow">→</div>
+      <div class="solution-card"><strong>Verification &amp; validation</strong><p class="mt-8" style="font-size:0.9rem;">Every suggestion is reviewed by the doctor before it becomes a decision.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPLEMENTATION PLAN -->
+<section style="background:var(--teal-dark); color:#fff;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" style="color:#8FD6C4;">Rollout</div>
+      <h2 style="color:#fff;">From prototype to nationwide launch.</h2>
+    </div>
+    <div class="plan-rail">
+      <div class="plan-step"><div class="n">1</div><strong>Design a model</strong><p class="text-muted mt-8" style="font-size:0.85rem;">Build the core platform with essential features for patients, doctors and hospitals.</p></div>
+      <div class="plan-step"><div class="n">2</div><strong>Testing</strong><p class="text-muted mt-8" style="font-size:0.85rem;">Check functionality, security, accuracy and ease of use before deployment.</p></div>
+      <div class="plan-step"><div class="n">3</div><strong>Small-district launch</strong><p class="text-muted mt-8" style="font-size:0.85rem;">Deploy in one district to observe real-world usage and response.</p></div>
+      <div class="plan-step"><div class="n">4</div><strong>Feedback &amp; improvements</strong><p class="text-muted mt-8" style="font-size:0.85rem;">Collect feedback from patients, doctors and hospitals; refine the system.</p></div>
+      <div class="plan-step"><div class="n">5</div><strong>Nationwide launch</strong><p class="text-muted mt-8" style="font-size:0.85rem;">Expand across the country for large-scale adoption.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap text-center">
+    <h2 style="font-size:1.6rem;">Ready to see it running?</h2>
+    <div class="flex gap-16 mt-24" style="justify-content:center; flex-wrap:wrap;">
+      <a href="kiosk.html" class="btn btn-primary">Open the patient kiosk</a>
+      <a href="dashboard.html" class="btn btn-ghost">Open the doctor dashboard</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom" style="border-top:none; padding-top:0;">
+    <span>© 2026 Team Runtime Terror · SIH Idea Submission</span>
+    <a href="index.html" class="btn btn-ghost">← Back to overview</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
