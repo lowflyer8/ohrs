@@ -1,6 +1,6 @@
 <head>
 <div>
-<h1>PROJECT OCEAN_VIEW </h1>
+<h1></h1>
 </div>
 </head>
 
