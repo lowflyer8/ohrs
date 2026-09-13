@@ -6,7 +6,7 @@
 
 <!-- <br> </br> -->
 
-<P>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet, dolorum accusantium quia, magnam facere eligendi repellendus vero sit quaerat exercitationem nesciunt rerum nam unde voluptas ea natus aliquam? Exercitationem, error.(random auto generated text)</P>
+<P>https://github.com/lowflyer8/ohrs/blob/main/medikiosk/index.html</P>
 <hr> </hr>
 <p>placeholder_1</p>
 <hr> </hr>
