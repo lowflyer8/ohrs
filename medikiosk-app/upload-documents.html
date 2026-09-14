@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Documents — Medikiosk</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.2-4.6-9.6-9.2C.8 8.4 2.4 4.8 6 4.2c2-.3 3.7.7 4.7 2.1a1 1 0 0 0 1.6 0c1-1.4 2.7-2.4 4.7-2.1 3.6.6 5.2 4.2 3.6 7.6C19.2 16.4 12 21 12 21z" stroke="white" stroke-width="1.5"/></svg></span>
+      <span>Medikiosk<small>Team Runtime Terror · SIH26047</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Login</a></li>
+      <li><a href="hospital.html">Hospital Portal</a></li>
+      <li><a href="patient.html">Patient Portal</a></li>
+      <li><a href="doctor.html">Doctor Portal</a></li>
+    </ul>
+    <a href="index.html" class="nav-cta">Log out</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span></button>
+  </div>
+</nav>
+
+<section class="section-tight">
+  <div class="wrap" style="max-width:480px;">
+    <div class="breadcrumb"><a href="patient.html">Patient Portal</a> &gt; Upload Documents</div>
+    <h1 style="font-size:1.7rem;">Upload documents</h1>
+
+    <div class="card mt-24">
+      <form onsubmit="event.preventDefault(); document.getElementById('confirm').style.display='block'; this.querySelector('button').textContent='Uploaded ✓';">
+        <label for="doc">Prescription or lab report</label>
+        <input type="file" id="doc">
+        <button type="submit" class="btn btn-primary btn-block mt-24">Upload</button>
+      </form>
+      <div id="confirm" class="notice-box mt-16" style="display:none;">Document uploaded and scanned — its values have been added to your health information.</div>
+    </div>
+
+    <div class="flex gap-16 mt-24" style="flex-wrap:wrap;">
+      <a href="chatbot.html" class="btn btn-ghost">Continue to Chat with Chatbot</a>
+      <a href="patient.html" class="btn btn-ghost">Back to Patient Portal</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom" style="border-top:none; padding-top:0;">
+    <span>© 2026 Team Runtime Terror · SIH Idea Submission</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
